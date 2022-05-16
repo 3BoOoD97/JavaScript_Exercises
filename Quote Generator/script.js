@@ -1,9 +1,29 @@
+const quoteContainer = document.getElementById('quote-container');
+const quoteText = document.getElementById('quote');
+const authorText = document.getElementById('author');
+const newQuoteBtn = document.getElementById('new-qoute');
+const twitterBtn = document.getElementById('twitter');
+
+
+
 let apiQuotes = [];
 
 function getRandomQuote() {
     //Pick Random Quote
     const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
-    console.log(quote);
+    if (!quote.author) {
+        authorText.textContent = "Unknown";
+    } else {
+        authorText.textContent = quote.author;
+    }
+
+    if (quote.text.length > 120) {
+        quoteText.classList.add('long-quote');
+    } else {
+        quoteText.classList.remove('long-quote');
+    }
+
+    quoteText.textContent = quote.text;
 }
 
 //Get Quotes from API
@@ -17,5 +37,15 @@ async function getQuotes() {
 
     }
 }
+
+function tweetQuote() {
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent} - 
+${authorText.textContent}`;
+    window.open(tweetUrl, '_blank');
+}
+
+//Event Listeners
+newQuoteBtn.addEventListener('click', getQuotes);
+twitterBtn.addEventListener('click', tweetQuote);
 
 getQuotes();
