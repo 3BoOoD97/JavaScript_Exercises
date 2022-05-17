@@ -3,12 +3,25 @@ const quoteText = document.getElementById('quote');
 const authorText = document.getElementById('author');
 const newQuoteBtn = document.getElementById('new-qoute');
 const twitterBtn = document.getElementById('twitter');
-
-
+const loader = document.getElementById('loader');
 
 let apiQuotes = [];
 
+//Show Loader
+function loading() {
+    loader.hidden = false;
+    quoteContainer.hidden = true;
+}
+
+//Hide Loader
+function complete() {
+    quoteContainer.hidden = false;
+    loader.hidden = true;
+}
+
+
 function getRandomQuote() {
+    loading();
     //Pick Random Quote
     const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
     if (!quote.author) {
@@ -22,8 +35,8 @@ function getRandomQuote() {
     } else {
         quoteText.classList.remove('long-quote');
     }
-
     quoteText.textContent = quote.text;
+    complete();
 }
 
 //Get Quotes from API
