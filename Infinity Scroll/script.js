@@ -47,6 +47,11 @@ function showImages() {
         imageContainer.appendChild(item);
     });
 }
-
+// Check if scrolling near bottom of the page, then Load moer images
+window.addEventListener('scroll', () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000) {
+        getImages();
+    }
+});
 //On Load
 getImages();
