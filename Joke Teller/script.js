@@ -45,17 +45,9 @@ const VoiceRSS = {
     _getXHR: function() { try { return new XMLHttpRequest } catch (e) {} try { return new ActiveXObject("Msxml3.XMLHTTP") } catch (e) {} try { return new ActiveXObject("Msxml2.XMLHTTP.6.0") } catch (e) {} try { return new ActiveXObject("Msxml2.XMLHTTP.3.0") } catch (e) {} try { return new ActiveXObject("Msxml2.XMLHTTP") } catch (e) {} try { return new ActiveXObject("Microsoft.XMLHTTP") } catch (e) {} throw "The browser does not support HTTP request" }
 };
 
-function test() {
-    VoiceRSS.speech({
-        key: '',
-        src: 'Hello, world!',
-        hl: 'en-us',
-        v: 'Linda',
-        r: 0,
-        c: 'mp3',
-        f: '44khz_16bit_stereo',
-        ssml: false
-    });
+//Disable/Enable Button
+function toggleButton() {
+    button.disabled = !button.disabled;
 }
 
 //Get Jokes from JOKE API
@@ -70,10 +62,28 @@ async function getJokes() {
         } else {
             joke = data.joke;
         }
-        console.log(joke);
+        //Text to speech
+        tellJokes(joke);
+        //Disable button
+        toggleButton();
     } catch (error) {
         console.log(error);
     }
 }
-//test();
+button.addEventListener('click', getJokes);
+audioElement.addEventListener('ended', toggleButton)
+
+function tellJokes(joke) {
+    console.log(joke);
+    VoiceRSS.speech({
+        key: 'YOUR_API_KEY',
+        src: joke,
+        hl: 'en-us',
+        v: 'Linda',
+        r: 0,
+        c: 'mp3',
+        f: '44khz_16bit_stereo',
+        ssml: false
+    });
+}
 getJokes();
