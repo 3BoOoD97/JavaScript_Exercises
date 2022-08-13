@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Nunito&display=swap");
 :root {
     --primaryColor: #fff;
     --navColor1: #21292c;
@@ -15,7 +15,7 @@ html {
 body {
     margin: 0;
     background: #000;
-    font-family: Oswald, sans-serif;
+    font-family: Nunito, sans-serif;
 }
 
 
@@ -46,13 +46,20 @@ body {
 }
 
 
-/* Nav Menu Items*/
+/* Nav Menu Items */
 
 nav,
 nav ul {
     height: 100vh;
     margin: 0;
     padding: 0;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    list-style: none;
 }
 
 nav ul li {
@@ -63,7 +70,7 @@ nav ul li {
 nav li a {
     position: relative;
     top: 45%;
-    color: white;
+    color: #fff;
     text-transform: uppercase;
     letter-spacing: 4px;
     text-decoration: none;
@@ -79,7 +86,7 @@ nav li a::before {
     content: "";
     width: 25vw;
     height: 3px;
-    background-color: white;
+    background-color: #fff;
     position: absolute;
     top: 47.5%;
     left: 0;
@@ -88,13 +95,6 @@ nav li a::before {
 
 nav li a:hover::before {
     opacity: 1;
-}
-
-nav ul {
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
-    list-style: none;
 }
 
 nav li:nth-of-type(1) {
