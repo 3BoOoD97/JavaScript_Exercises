@@ -15,6 +15,7 @@ let countDownTitle = '';
 let countDownDate = '';
 let countDownValue = new Date();
 let countdownActive;
+let saveCountdown;
 
 const second = 1000;
 const minute = second * 60;
@@ -31,13 +32,12 @@ function updateDOM() {
     countdownActive= setInterval(() => {
         const now = new Date().getTime();
     const distance = countDownValue - now;
-    console.log(distance);
+    
 
     const days = Math.floor(distance / day);
     const hours = Math.floor((distance % day) / hour);
     const minutes = Math.floor((distance % hour) / minute);
     const seconds = Math.floor((distance % minute) / second);
-    console.log(days, hours, minutes, seconds);
     // Hide Input
     inputContainer.hidden = true;
 
@@ -65,7 +65,12 @@ function updateCountdown(e) {
     e.preventDefault();
     countDownTitle = e.srcElement[0].value;
     countDownDate = e.srcElement[1].value;
-    console.log(countDownTitle, countDownDate);
+    saveCountdown = {
+        title: countDownTitle,
+        date: countDownDate,
+    };
+    console.log(saveCountdown);
+    localStorage.setItem('countdown', JSON.stringify(saveCountdown));
     // Check for valid date
     if (countDownDate === '') {
         alert('Please select a date for the countdown.');
@@ -87,9 +92,24 @@ function reset() {
     // Reset values
     countDownTitle = '';
     countDownDate = '';
+    localStorage.removeItem('countdown');
 }
 
+function restorePreviousCountdown() {
+ // Get countdown from localStorage if available
+ if (localStorage.getItem('countdown')) {
+     inputContainer.hidden = true;
+     saveCountdown = JSON.parse(localStorage.getItem('countdown'));
+     countDownTitle = saveCountdown.title;
+     countDownDate = saveCountdown.date;
+     countDownValue = new Date(countDownDate).getTime();
+     updateDOM();
+ }
+}
 //Event Listeners
 countDowmForm.addEventListener('submit', updateCountdown);
 countdownBtn.addEventListener('click', reset);
 completeBtn.addEventListener('click', reset);
+
+// On Load, check localStorage
+restorePreviousCountdown();
